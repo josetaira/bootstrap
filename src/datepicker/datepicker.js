@@ -28,7 +28,8 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   var self = this,
       ngModelCtrl = { $setViewValue: angular.noop }, // nullModelCtrl;
       ngModelOptions = {},
-      watchListeners = [];
+      watchListeners = [],
+      _datepickerModeCache = null;
 
   $element.addClass('uib-datepicker');
   $attrs.$set('role', 'application');
@@ -68,6 +69,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       case 'datepickerMode':
         $scope.datepickerMode = angular.isDefined($scope.datepickerOptions.datepickerMode) ?
           $scope.datepickerOptions.datepickerMode : datepickerConfig.datepickerMode;
+        _datepickerModeCache = $scope.datepickerMode;
         break;
       case 'formatDay':
       case 'formatDayHeader':
@@ -339,6 +341,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   });
 
   $scope.$on('$destroy', function() {
+    setMode(_datepickerModeCache);
     //Clear all watch listeners on destroy
     while (watchListeners.length) {
       watchListeners.shift()();

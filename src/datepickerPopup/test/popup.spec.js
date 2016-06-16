@@ -1451,6 +1451,14 @@ describe('datepicker popup', function() {
       clickTitleButton();
       expect($rootScope.options.datepickerMode).toBe('year');
     });
+    
+    it('should be reset to original options value on scope destroy', function() {
+      expect($rootScope.options.datepickerMode).toEqual('month');
+      clickTitleButton();
+      expect($rootScope.options.datepickerMode).toEqual('year');
+      $rootScope.$destroy();
+      expect($rootScope.options.datepickerMode).toEqual('month');
+    });
   });
 
   describe('attribute `onOpenFocus`', function() {
