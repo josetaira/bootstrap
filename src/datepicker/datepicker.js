@@ -158,8 +158,18 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     return false;
   };
   
-  $scope.$watch("selectedDt", function(dt) {
-    if(!dt || ngModelCtrl.$invalid) {
+  $scope.$watch(function() {
+    return ngModelCtrl.$modelValue;
+  }, function(dt) {
+    if(!dt) {
+      setMode(_datepickerModeCache);
+    }
+  }); 
+  
+  $scope.$watch(function() {
+    return ngModelCtrl.$invalid;
+  }, function(invalid) {
+    if(invalid) {
       setMode(_datepickerModeCache);
     }
   });
