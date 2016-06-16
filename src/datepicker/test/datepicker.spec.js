@@ -1548,7 +1548,8 @@ describe('datepicker', function() {
       beforeEach(inject(function() {
         $rootScope.date = new Date('August 11, 2013');
         $rootScope.options = {
-          datepickerMode: 'month'
+          datepickerMode: 'month',
+          minDate: null
         };
         element = $compile('<div uib-datepicker ng-model="date" datepicker-options="options"></div>')($rootScope);
         $rootScope.$digest();
@@ -1561,6 +1562,23 @@ describe('datepicker', function() {
       it('updates binding', function() {
         clickTitleButton();
         expect($rootScope.options.datepickerMode).toBe('year');
+      });
+      
+      it('resets mode on null date', function() {
+        clickTitleButton();
+        expect($rootScope.options.datepickerMode).toBe('year');
+        $rootScope.date = null;
+        $rootScope.$digest();
+        expect($rootScope.options.datepickerMode).toBe('month');
+      });
+      
+      it('resets mode on invalid date', function() {
+        clickTitleButton();
+        expect($rootScope.options.datepickerMode).toBe('year');
+        
+        $rootScope.options.minDate = new Date('August 11, 2016');
+        $rootScope.$apply();
+        expect($rootScope.options.datepickerMode).toBe('month');
       });
     });
 

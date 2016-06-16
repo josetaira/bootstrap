@@ -157,6 +157,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     }
     return false;
   };
+  
+  $scope.$watch("selectedDt", function(dt) {
+    if(!dt || ngModelCtrl.$invalid) {
+      setMode(_datepickerModeCache);
+    }
+  });
 
   this.init = function(ngModelCtrl_) {
     ngModelCtrl = ngModelCtrl_;
@@ -341,7 +347,6 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   });
 
   $scope.$on('$destroy', function() {
-    setMode(_datepickerModeCache);
     //Clear all watch listeners on destroy
     while (watchListeners.length) {
       watchListeners.shift()();
